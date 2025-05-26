@@ -1,0 +1,9 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/": "pages/index.js",
+  "/api/profitable-pools": "pages/api/profitable-pools.js",
+  "/api/token-metadata": "pages/api/token-metadata.js",
+  "/api/pair/[address]": "pages/api/pair/[address].js"
+}

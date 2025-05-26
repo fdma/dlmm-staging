@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "birdeyedotso",
+      "source": "@birdeyedotso/v1.0#2v1qzhh60m9b8nn8k",
+      "integrity": "sha512-B0XUAOjBdEpa8ZMr94lF35urESunBvTQbwlIvmDT3SIVusalmRtTq1eNp0Q0bsTpdF+KB1iI+crxzs/4kQdvww==",
+      "installerVersion": "6.1.3"
+    }
+  ]
+}
