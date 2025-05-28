@@ -45,6 +45,140 @@ export const useAutoReopenPosition = ({
   const MAX_RECONNECT_ATTEMPTS = 5;
   const RECONNECT_DELAY = 5000; // 5 seconds
 
+  // Handle pool updates
+  const handlePoolUpdate = useCallback(async (accountInfo: any) => {
+    if (!walletPublicKey) {
+      console.log('Wallet public key not available');
+      setPositionData(prev => ({ ...prev, error: 'Wallet not connected' }));
+      return;
+    }
+
+    if (!positionData.dlmm) {
+      console.log('DLMM not initialized');
+      setPositionData(prev => ({ ...prev, error: 'Pool not initialized' }));
+      return;
+    }
+
+    try {
+      // Refetch states before getting data
+      await positionData.dlmm.refetchStates();
+
+      // Get pool state and active bin
+      const activeBin = await positionData.dlmm.getActiveBin();
+      console.log('Active bin data:', {
+        binId: activeBin.binId.toString(),
+        price: activeBin.price.toString(),
+        xAmount: activeBin.xAmount.toString(),
+        yAmount: activeBin.yAmount.toString()
+      });
+
+      // Calculate range around active bin
+      const minBinId = activeBin.binId - TOTAL_RANGE_INTERVAL;
+      const maxBinId = activeBin.binId + TOTAL_RANGE_INTERVAL;
+      console.log('Position range:', { minBinId, maxBinId, activeBinId: activeBin.binId });
+
+      // Get user positions for this pool
+      const { userPositions } = await positionData.dlmm.getPositionsByUserAndLbPair(walletPublicKey);
+      console.log('User positions found:', userPositions.length);
+
+      const userPosition = userPositions[0];
+
+      if (!userPosition) {
+        console.log('No existing position found, preparing to create new one');
+        // If no position exists, prepare data for new position
+        const newPosition = new Keypair();
+        const totalXAmount = new BN(100 * 10 ** 9); // 100 SOL
+        
+        // Calculate Y amount based on active bin price
+        const totalYAmount = activeBin.xAmount.mul(totalXAmount).div(activeBin.yAmount);
+
+        setPositionData(prev => ({
+          ...prev,
+          activeBin: {
+            binId: activeBin.binId,
+            price: new BN(activeBin.price),
+            xAmount: activeBin.xAmount,
+            yAmount: activeBin.yAmount
+          },
+          position: {
+            type: 'create',
+            positionPubKey: newPosition.publicKey,
+            totalXAmount,
+            totalYAmount,
+            range: { minBinId, maxBinId },
+            strategy: {
+              maxBinId,
+              minBinId,
+              strategyType: StrategyType.Spot,
+            }
+          },
+          error: null
+        }));
+        return;
+      }
+
+      // Check if active bin is outside position range
+      if (activeBin.binId < userPosition.positionData.lowerBinId || 
+          activeBin.binId > userPosition.positionData.upperBinId) {
+        console.log('Active bin outside range, preparing rebalance...');
+
+        const currentLiquidity = new BN(userPosition.positionData.totalXAmount)
+          .add(new BN(userPosition.positionData.totalYAmount));
+
+        setPositionData(prev => ({
+          ...prev,
+          activeBin: {
+            binId: activeBin.binId,
+            price: new BN(activeBin.price),
+            xAmount: activeBin.xAmount,
+            yAmount: activeBin.yAmount
+          },
+          position: {
+            type: 'rebalance',
+            currentPosition: userPosition,
+            newPosition: new Keypair(),
+            currentLiquidity,
+            range: { minBinId, maxBinId },
+            strategy: {
+              maxBinId,
+              minBinId,
+              strategyType: StrategyType.Spot,
+            }
+          },
+          error: null
+        }));
+        return;
+      }
+
+      // Position is in range
+      setPositionData(prev => ({
+        ...prev,
+        activeBin: {
+          binId: activeBin.binId,
+          price: new BN(activeBin.price),
+          xAmount: activeBin.xAmount,
+          yAmount: activeBin.yAmount
+        },
+        position: {
+          type: 'active',
+          data: userPosition,
+          range: {
+            min: userPosition.positionData.lowerBinId,
+            max: userPosition.positionData.upperBinId
+          }
+        },
+        error: null
+      }));
+
+    } catch (error) {
+      console.error('Error in handlePoolUpdate:', error);
+      setPositionData(prev => ({
+        ...prev,
+        error: error instanceof Error ? error.message : 'Failed to get position data'
+      }));
+    }
+  }, [walletPublicKey, positionData.dlmm]);
+
   // Debounced pool update handler
   const debouncedHandlePoolUpdate = useCallback(
     debounce((accountInfo: any) => {
@@ -100,124 +234,6 @@ export const useAutoReopenPosition = ({
       initializeDLMM();
     }
   }, [connection, positionData.dlmm, positionData.isInitializing, positionData.poolAddress]);
-
-  const handlePoolUpdate = useCallback(async (accountInfo: any) => {
-    if (!walletPublicKey) {
-      console.log('Wallet public key not available');
-      setPositionData(prev => ({ ...prev, error: 'Wallet not connected' }));
-      return;
-    }
-
-    if (!positionData.dlmm) {
-      console.log('DLMM not initialized');
-      setPositionData(prev => ({ ...prev, error: 'Pool not initialized' }));
-      return;
-    }
-
-    try {
-      // Refetch states before getting data
-      await positionData.dlmm.refetchStates();
-
-      // Get pool state and active bin
-      const activeBin = await positionData.dlmm.getActiveBin();
-      console.log('Active bin data:', {
-        binId: activeBin.binId.toString(),
-        price: activeBin.price.toString(),
-        xAmount: activeBin.xAmount.toString(),
-        yAmount: activeBin.yAmount.toString()
-      });
-
-      // Calculate range around active bin
-      const minBinId = activeBin.binId - TOTAL_RANGE_INTERVAL;
-      const maxBinId = activeBin.binId + TOTAL_RANGE_INTERVAL;
-      console.log('Position range:', { minBinId, maxBinId, activeBinId: activeBin.binId });
-
-      // Get user positions for this pool
-      const { userPositions } = await positionData.dlmm.getPositionsByUserAndLbPair(walletPublicKey);
-      console.log('User positions found:', userPositions.length);
-
-      const userPosition = userPositions[0];
-
-      if (!userPosition) {
-        console.log('No existing position found, preparing to create new one');
-        // If no position exists, prepare data for new position
-        const newPosition = new Keypair();
-        const totalXAmount = new BN(100 * 10 ** 9); // 100 SOL
-        
-        // Calculate Y amount based on active bin price
-        const totalYAmount = activeBin.xAmount.mul(totalXAmount).div(activeBin.yAmount);
-
-        setPositionData(prev => ({
-          ...prev,
-          activeBin,
-          position: {
-            type: 'create',
-            positionPubKey: newPosition.publicKey,
-            totalXAmount,
-            totalYAmount,
-            range: { minBinId, maxBinId },
-            strategy: {
-              maxBinId,
-              minBinId,
-              strategyType: StrategyType.Spot,
-            }
-          },
-          error: null
-        }));
-        return;
-      }
-
-      // Check if active bin is outside position range
-      if (activeBin.binId < userPosition.positionData.lowerBinId || 
-          activeBin.binId > userPosition.positionData.upperBinId) {
-        console.log('Active bin outside range, preparing rebalance...');
-
-        const currentLiquidity = new BN(userPosition.positionData.totalXAmount)
-          .add(new BN(userPosition.positionData.totalYAmount));
-
-        setPositionData(prev => ({
-          ...prev,
-          activeBin,
-          position: {
-            type: 'rebalance',
-            currentPosition: userPosition,
-            newPosition: new Keypair(),
-            currentLiquidity,
-            range: { minBinId, maxBinId },
-            strategy: {
-              maxBinId,
-              minBinId,
-              strategyType: StrategyType.Spot,
-            }
-          },
-          error: null
-        }));
-        return;
-      }
-
-      // Position is in range
-      setPositionData(prev => ({
-        ...prev,
-        activeBin,
-        position: {
-          type: 'active',
-          data: userPosition,
-          range: {
-            min: userPosition.positionData.lowerBinId,
-            max: userPosition.positionData.upperBinId
-          }
-        },
-        error: null
-      }));
-
-    } catch (error) {
-      console.error('Error in handlePoolUpdate:', error);
-      setPositionData(prev => ({
-        ...prev,
-        error: error instanceof Error ? error.message : 'Failed to get position data'
-      }));
-    }
-  }, [walletPublicKey, positionData.dlmm]);
 
   // Subscribe to pool updates with reconnection logic
   const subscribeToPool = useCallback(async () => {
