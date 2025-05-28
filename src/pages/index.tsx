@@ -74,9 +74,9 @@ interface JupiterPriceResponse {
 
 // Функция для определения категории пула
 const getPoolCategory = (pool: MeteoraPair): PoolCategory => {
-  const isSolPair = pool.mint_x === 'So11111111111111111111111111111111111111112' || 
-                    pool.mint_y === 'So11111111111111111111111111111111111111112';
-  
+  const isSolPair = pool.mint_x === 'So11111111111111111111111111111111111111112' ||
+    pool.mint_y === 'So11111111111111111111111111111111111111112';
+
   if (!isSolPair) return 'other';
 
   const stablecoins = [
@@ -90,11 +90,11 @@ const getPoolCategory = (pool: MeteoraPair): PoolCategory => {
   ];
 
   const otherMint = pool.mint_x === 'So11111111111111111111111111111111111111112' ? pool.mint_y : pool.mint_x;
-  
+
   if (stablecoins.includes(otherMint)) {
     return 'sol-stables';
   }
-  
+
   return 'sol-memecoins';
 };
 
@@ -105,17 +105,17 @@ const AprChart = ({ data }: { data: AprDataPoint[] }) => {
         <LineChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
           <defs>
             <linearGradient id="aprGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8}/>
-              <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.1}/>
+              <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.1} />
             </linearGradient>
           </defs>
-          <XAxis 
-            dataKey="timestamp" 
+          <XAxis
+            dataKey="timestamp"
             hide={true}
             type="number"
             domain={['dataMin', 'dataMax']}
           />
-          <YAxis 
+          <YAxis
             hide={true}
             domain={['auto', 'auto']}
             padding={{ top: 10, bottom: 10 }}
@@ -161,17 +161,17 @@ const VolumeChart = ({ data }: { data: VolumeDataPoint[] }) => {
         <LineChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
           <defs>
             <linearGradient id="volumeGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
-              <stop offset="95%" stopColor="#10B981" stopOpacity={0.1}/>
+              <stop offset="5%" stopColor="#10B981" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#10B981" stopOpacity={0.1} />
             </linearGradient>
           </defs>
-          <XAxis 
-            dataKey="timestamp" 
+          <XAxis
+            dataKey="timestamp"
             hide={true}
             type="number"
             domain={['dataMin', 'dataMax']}
           />
-          <YAxis 
+          <YAxis
             hide={true}
             domain={['auto', 'auto']}
             padding={{ top: 10, bottom: 10 }}
@@ -224,17 +224,17 @@ const ModalAprChart = ({ data }: { data: AprDataPoint[] }) => {
           <LineChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
             <defs>
               <linearGradient id="aprGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.1}/>
+                <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.1} />
               </linearGradient>
             </defs>
-            <XAxis 
-              dataKey="timestamp" 
+            <XAxis
+              dataKey="timestamp"
               hide={true}
               type="number"
               domain={['dataMin', 'dataMax']}
             />
-            <YAxis 
+            <YAxis
               hide={true}
               domain={['auto', 'auto']}
               padding={{ top: 10, bottom: 10 }}
@@ -270,7 +270,7 @@ const ModalAprChart = ({ data }: { data: AprDataPoint[] }) => {
           </LineChart>
         </ResponsiveContainer>
       </div>
-      
+
       {/* Статистика под графиком */}
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-primary-800/30 rounded-lg p-3 border border-accent-blue/20">
@@ -313,17 +313,17 @@ const ModalVolumeChart = ({ data }: { data: VolumeDataPoint[] }) => {
           <LineChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
             <defs>
               <linearGradient id="volumeGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#10B981" stopOpacity={0.1}/>
+                <stop offset="5%" stopColor="#10B981" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#10B981" stopOpacity={0.1} />
               </linearGradient>
             </defs>
-            <XAxis 
-              dataKey="timestamp" 
+            <XAxis
+              dataKey="timestamp"
               hide={true}
               type="number"
               domain={['dataMin', 'dataMax']}
             />
-            <YAxis 
+            <YAxis
               hide={true}
               domain={['auto', 'auto']}
               padding={{ top: 10, bottom: 10 }}
@@ -359,7 +359,7 @@ const ModalVolumeChart = ({ data }: { data: VolumeDataPoint[] }) => {
           </LineChart>
         </ResponsiveContainer>
       </div>
-      
+
       {/* Статистика под графиком */}
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-primary-800/30 rounded-lg p-3 border border-accent-green/20">
@@ -436,7 +436,7 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
 
     // Получаем последние два значения (текущее и предыдущее)
     const [previous, current] = history.slice(-2);
-    
+
     // Вычисляем изменение в процентах
     const percentageChange = ((current.volume - previous.volume) / previous.volume) * 100;
     const threshold = 5; // 5% изменение считается значительным
@@ -446,7 +446,7 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
     return {
       isGrowing: percentageChange > 0,
       percentageChange: Math.abs(percentageChange),
-      message: percentageChange > 0 
+      message: percentageChange > 0
         ? `Объемы растут +${percentageChange.toFixed(1)}%`
         : `Объемы падают -${Math.abs(percentageChange).toFixed(1)}%`
     };
@@ -454,10 +454,10 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
 
   const fetchStats = useCallback(async () => {
     if (!pool.address) return;
-    
+
     try {
       const { data } = await axios.get<MeteoraPair>(`/api/pair/${pool.address}`);
-      
+
       const now = Date.now();
       const currentVolume = data.volume.hour_1;
 
@@ -475,7 +475,7 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
         };
         return [...prev, newPoint].slice(-10);
       });
-      
+
       setStats(data);
       setError(null);
     } catch (err) {
@@ -514,7 +514,7 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
   useEffect(() => {
     return () => {
       const tenMinutesAgo = Date.now() - 10 * 60 * 1000;
-      
+
       const savedApr = localStorage.getItem(`apr-history-${pool.address}`);
       if (savedApr) {
         try {
@@ -589,43 +589,43 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
         {token.social.telegram && (
           <a
             href={token.social.telegram}
-                          target="_blank"
-                          rel="noopener noreferrer"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-primary-200 hover:text-accent-blue transition-colors"
             onClick={e => e.stopPropagation()}
-                        >
+          >
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.2-.04-.28-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.29-.49.8-.75 3.12-1.36 5.2-2.26 6.24-2.7 2.98-1.24 3.6-1.45 4.01-1.45.09 0 .29.02.42.12.11.08.14.19.16.27.02.07.02.2-.01.33z"/>
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.2-.04-.28-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.29-.49.8-.75 3.12-1.36 5.2-2.26 6.24-2.7 2.98-1.24 3.6-1.45 4.01-1.45.09 0 .29.02.42.12.11.08.14.19.16.27.02.07.02.2-.01.33z" />
             </svg>
-                        </a>
-                      )}
+          </a>
+        )}
         {token.social.twitter && (
-                        <a
+          <a
             href={token.social.twitter}
-                          target="_blank"
-                          rel="noopener noreferrer"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-primary-200 hover:text-accent-blue transition-colors"
             onClick={e => e.stopPropagation()}
-                        >
+          >
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
             </svg>
-                        </a>
-                      )}
+          </a>
+        )}
         {token.social.discord && (
-                        <a
+          <a
             href={token.social.discord}
-                          target="_blank"
-                          rel="noopener noreferrer"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-primary-200 hover:text-accent-blue transition-colors"
             onClick={e => e.stopPropagation()}
-                        >
+          >
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+              <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
             </svg>
-                        </a>
-                      )}
-                  </div>
+          </a>
+        )}
+      </div>
     );
   };
 
@@ -635,18 +635,19 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
 
   return (
     <>
-      <div 
+      <div
         onClick={handleExpand}
-        className={`group relative bg-card-bg rounded-xl border border-card-border p-5 
+        className={`group relative bg-card-bg rounded-xl border border-card-border p-4 
           transition-all duration-500 ease-out cursor-pointer
           hover:scale-[1.02] hover:shadow-xl hover:shadow-accent-blue/5
           hover:border-accent-blue/20 hover:-translate-y-1
-          will-change-transform`}
+          will-change-transform
+          sm:p-5`}
       >
         {/* Декоративный градиентный фон */}
         <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/5 to-accent-green/5 
           opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl" />
-        
+
         {/* Контент карточки */}
         <div className="relative">
           {/* Верхняя часть карточки */}
@@ -659,8 +660,8 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
                     <div className="relative w-8 h-8 rounded-full bg-primary-800 border border-accent-blue/20 
                       overflow-hidden flex items-center justify-center">
                       {tokenMetadata[stats.mint_x]?.logoURI ? (
-                        <img 
-                          src={tokenMetadata[stats.mint_x].logoURI} 
+                        <img
+                          src={tokenMetadata[stats.mint_x].logoURI}
                           alt={tokenMetadata[stats.mint_x].symbol}
                           className="w-full h-full object-cover"
                           onError={(e) => {
@@ -679,8 +680,8 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
                         transition-all duration-200 z-50">
                         <div className="flex items-center space-x-2 mb-2">
                           {tokenMetadata[stats.mint_x]?.logoURI && (
-                            <img 
-                              src={tokenMetadata[stats.mint_x].logoURI} 
+                            <img
+                              src={tokenMetadata[stats.mint_x].logoURI}
                               alt={tokenMetadata[stats.mint_x]?.symbol || 'Token'}
                               className="w-6 h-6 rounded-full"
                             />
@@ -711,8 +712,8 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
                     <div className="relative w-8 h-8 rounded-full bg-primary-800 border border-accent-blue/20 
                       overflow-hidden flex items-center justify-center">
                       {tokenMetadata[stats.mint_y]?.logoURI ? (
-                        <img 
-                          src={tokenMetadata[stats.mint_y].logoURI} 
+                        <img
+                          src={tokenMetadata[stats.mint_y].logoURI}
                           alt={tokenMetadata[stats.mint_y].symbol}
                           className="w-full h-full object-cover"
                           onError={(e) => {
@@ -731,8 +732,8 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
                         transition-all duration-200 z-50">
                         <div className="flex items-center space-x-2 mb-2">
                           {tokenMetadata[stats.mint_y]?.logoURI && (
-                            <img 
-                              src={tokenMetadata[stats.mint_y].logoURI} 
+                            <img
+                              src={tokenMetadata[stats.mint_y].logoURI}
                               alt={tokenMetadata[stats.mint_y]?.symbol || 'Token'}
                               className="w-6 h-6 rounded-full"
                             />
@@ -766,28 +767,28 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
               </div>
               <div className="flex items-center space-x-2 text-sm text-text-secondary font-mono">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                 </svg>
                 <span>{stats.mint_x.slice(0, 4)}...{stats.mint_x.slice(-4)}</span>
                 <span className="text-text-muted">/</span>
                 <span>{stats.mint_y.slice(0, 4)}...{stats.mint_y.slice(-4)}</span>
               </div>
-            </div>
-            <div className={`
+              <div className={`
               px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap
               flex items-center space-x-1 transform group-hover:scale-105 transition-transform duration-500
-              ${volumeLiquidityRatio >= 2 
-                ? 'bg-accent-green/10 text-accent-green' 
-                : volumeLiquidityRatio >= 1
-                  ? 'bg-accent-blue/10 text-accent-blue'
-                  : 'bg-text-muted/10 text-text-muted'}
+              ${volumeLiquidityRatio >= 2
+                  ? 'bg-accent-green/10 text-accent-green'
+                  : volumeLiquidityRatio >= 1
+                    ? 'bg-accent-blue/10 text-accent-blue'
+                    : 'bg-text-muted/10 text-text-muted'}
             `}>
-              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-              </svg>
-              <span>{volumeLiquidityRatio.toFixed(2)}x</span>
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+                <span>{volumeLiquidityRatio.toFixed(2)}x</span>
+              </div>
             </div>
           </div>
 
@@ -800,20 +801,19 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
             )}
 
             {volumeTrend && (
-              <div className={`text-sm p-2 rounded-lg flex items-center space-x-2 ${
-                volumeTrend.isGrowing 
-                  ? 'bg-accent-green/10 text-accent-green' 
+              <div className={`text-sm p-2 rounded-lg flex items-center space-x-2 ${volumeTrend.isGrowing
+                  ? 'bg-accent-green/10 text-accent-green'
                   : 'bg-accent-red/10 text-accent-red'
-              }`}>
+                }`}>
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   {volumeTrend.isGrowing ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                       d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                   ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                       d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
                   )}
-                  </svg>
+                </svg>
                 <span>{volumeTrend.message}</span>
               </div>
             )}
@@ -824,23 +824,23 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center space-x-2">
                   <svg className="w-4 h-4 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                       d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                   </svg>
                   <span className="text-text-secondary">Volume (1h)</span>
-                      </div>
-                <AnimatedCounter 
-                  value={stats.volume.hour_1} 
-                  prefix="$" 
+                </div>
+                <AnimatedCounter
+                  value={stats.volume.hour_1}
+                  prefix="$"
                   decimals={0}
                   className="font-medium text-text-primary"
                 />
-                  </div>
-            
+              </div>
+
               {volumeHistory.length > 1 && (
                 <VolumeChart data={volumeHistory} />
-            )}
-        </div>
+              )}
+            </div>
 
             {/* APR с графиком */}
             <div className="flex flex-col p-2 rounded-lg bg-primary-50/50 
@@ -848,59 +848,59 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center space-x-2">
                   <svg className="w-4 h-4 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <span className="text-text-secondary">APR</span>
-      </div>
-                <AnimatedCounter 
-                  value={stats.apr} 
-                  suffix="%" 
+                </div>
+                <AnimatedCounter
+                  value={stats.apr}
+                  suffix="%"
                   decimals={2}
                   className="font-medium text-text-primary"
                 />
               </div>
-            
+
               {aprHistory.length > 1 && (
                 <AprChart data={aprHistory} />
               )}
-      </div>
+            </div>
 
             {/* Остальные метрики */}
             <div className="flex items-center justify-between text-sm p-2 rounded-lg bg-primary-50/50 
               transform group-hover:scale-[1.01] transition-transform duration-500">
               <div className="flex items-center space-x-2">
                 <svg className="w-4 h-4 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span className="text-text-secondary">Liquidity</span>
               </div>
-              <AnimatedCounter 
-                value={parseFloat(stats.liquidity)} 
-                prefix="$" 
+              <AnimatedCounter
+                value={parseFloat(stats.liquidity)}
+                prefix="$"
                 decimals={0}
                 className="font-medium text-text-primary"
-        />
-      </div>
+              />
+            </div>
 
             <div className="flex items-center justify-between text-sm p-2 rounded-lg bg-primary-50/50 
               transform group-hover:scale-[1.01] transition-transform duration-500">
               <div className="flex items-center space-x-2">
                 <svg className="w-4 h-4 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
                 <span className="text-text-secondary">24h Volume</span>
               </div>
-              <AnimatedCounter 
-                value={stats.trade_volume_24h} 
-                prefix="$" 
+              <AnimatedCounter
+                value={stats.trade_volume_24h}
+                prefix="$"
                 decimals={0}
                 className="font-medium text-text-primary"
-        />
-      </div>
-    </div>
+              />
+            </div>
+          </div>
 
           {/* Удаляем кнопку Meteora из карточки */}
           <div className="relative mt-4 pt-4 border-t border-card-border">
@@ -913,13 +913,13 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
       {isExpanded && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-2">
           {/* Затемненный фон с размытием */}
-          <div 
+          <div
             className="absolute inset-0 bg-gradient-to-b from-primary-900/95 to-primary-950/95 backdrop-blur-xl transition-opacity duration-300"
             onClick={() => setIsExpanded(false)}
           />
-          
+
           {/* Контент модального окна */}
-          <div 
+          <div
             className="relative w-full max-w-4xl bg-gradient-to-br from-primary-800/40 to-primary-900/40 
               rounded-2xl border border-accent-blue/20 shadow-2xl shadow-accent-blue/20 
               backdrop-blur-xl transform transition-all duration-300 animate-modal-enter"
@@ -928,13 +928,13 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
             {/* Декоративные элементы */}
             <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/5 via-accent-green/5 to-transparent opacity-50" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-accent-blue/10 via-transparent to-transparent" />
-            
+
             {/* Заголовок */}
             <div className="relative flex items-center justify-between p-4 border-b border-accent-blue/10">
               <div className="flex items-center space-x-2">
                 <div className="p-1.5 bg-accent-blue/10 rounded-lg">
                   <svg className="w-5 h-5 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                       d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
@@ -966,7 +966,7 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
               <section className="space-y-3">
                 <h3 className="text-base font-medium text-white flex items-center space-x-2">
                   <svg className="w-4 h-4 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                       d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                   <span>Overview</span>
@@ -994,7 +994,7 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
               <section className="space-y-3">
                 <h3 className="text-base font-medium text-white flex items-center space-x-2">
                   <svg className="w-4 h-4 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                       d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                   <span>Pool Metrics</span>
@@ -1005,15 +1005,15 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
                     <div className="flex items-center space-x-2 mb-1">
                       <div className="p-1.5 bg-accent-blue/10 rounded-lg">
                         <svg className="w-4 h-4 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                             d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                         </svg>
                       </div>
                       <h4 className="text-sm text-white font-medium">Volume (1h)</h4>
                     </div>
-                    <AnimatedCounter 
-                      value={stats.volume.hour_1} 
-                      prefix="$" 
+                    <AnimatedCounter
+                      value={stats.volume.hour_1}
+                      prefix="$"
                       decimals={0}
                       className="text-base font-medium text-white"
                     />
@@ -1024,15 +1024,15 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
                     <div className="flex items-center space-x-2 mb-1">
                       <div className="p-1.5 bg-accent-green/10 rounded-lg">
                         <svg className="w-4 h-4 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                             d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                       </div>
                       <h4 className="text-sm text-white font-medium">APR</h4>
                     </div>
-                    <AnimatedCounter 
-                      value={stats.apr} 
-                      suffix="%" 
+                    <AnimatedCounter
+                      value={stats.apr}
+                      suffix="%"
                       decimals={2}
                       className="text-base font-medium text-white"
                     />
@@ -1043,34 +1043,34 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
                     <div className="flex items-center space-x-2 mb-1">
                       <div className="p-1.5 bg-accent-blue/10 rounded-lg">
                         <svg className="w-4 h-4 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                             d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-            </div>
+                      </div>
                       <h4 className="text-sm text-white font-medium">Liquidity</h4>
-          </div>
-                    <AnimatedCounter 
-                      value={parseFloat(stats.liquidity)} 
-                      prefix="$" 
+                    </div>
+                    <AnimatedCounter
+                      value={parseFloat(stats.liquidity)}
+                      prefix="$"
                       decimals={0}
                       className="text-base font-medium text-white"
                     />
-          </div>
+                  </div>
 
                   {/* 24h Volume */}
                   <div className="bg-primary-800/30 rounded-xl p-3 border border-accent-green/20">
                     <div className="flex items-center space-x-2 mb-1">
                       <div className="p-1.5 bg-accent-green/10 rounded-lg">
                         <svg className="w-4 h-4 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                             d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                         </svg>
-        </div>
+                      </div>
                       <h4 className="text-sm text-white font-medium">24h Volume</h4>
                     </div>
-                    <AnimatedCounter 
-                      value={stats.trade_volume_24h} 
-                      prefix="$" 
+                    <AnimatedCounter
+                      value={stats.trade_volume_24h}
+                      prefix="$"
                       decimals={0}
                       className="text-base font-medium text-white"
                     />
@@ -1082,7 +1082,7 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
               <section className="space-y-3">
                 <h3 className="text-base font-medium text-white flex items-center space-x-2">
                   <svg className="w-4 h-4 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                       d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                   </svg>
                   <span>Token Information</span>
@@ -1093,8 +1093,8 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
                     <div className="bg-primary-800/30 rounded-xl p-3 border border-accent-blue/20">
                       <div className="flex items-center space-x-2 mb-1">
                         {tokenMetadata[stats.mint_x].logoURI && (
-                          <img 
-                            src={tokenMetadata[stats.mint_x].logoURI} 
+                          <img
+                            src={tokenMetadata[stats.mint_x].logoURI}
                             alt={tokenMetadata[stats.mint_x].symbol}
                             className="w-6 h-6 rounded-full"
                           />
@@ -1116,8 +1116,8 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
                     <div className="bg-primary-800/30 rounded-xl p-3 border border-accent-green/20">
                       <div className="flex items-center space-x-2 mb-1">
                         {tokenMetadata[stats.mint_y].logoURI && (
-                          <img 
-                            src={tokenMetadata[stats.mint_y].logoURI} 
+                          <img
+                            src={tokenMetadata[stats.mint_y].logoURI}
                             alt={tokenMetadata[stats.mint_y].symbol}
                             className="w-6 h-6 rounded-full"
                           />
@@ -1140,7 +1140,7 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
               <section className="space-y-3">
                 <h3 className="text-base font-medium text-white flex items-center space-x-2">
                   <svg className="w-4 h-4 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                       d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
                   <span>External Links</span>
@@ -1156,7 +1156,7 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
                       hover:shadow-lg hover:shadow-accent-blue/10 text-sm"
                   >
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                         d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                     <span>Meteora</span>
@@ -1171,7 +1171,7 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
                       hover:shadow-lg hover:shadow-accent-green/10"
                   >
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                         d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
                     <span>Dexscreener</span>
@@ -1187,7 +1187,7 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
                         hover:shadow-lg hover:shadow-accent-blue/10"
                     >
                       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                           d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                       <span>GMGN {tokenMetadata[stats.mint_x]?.symbol || 'Token 1'}</span>
@@ -1202,15 +1202,15 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
                         hover:shadow-lg hover:shadow-accent-blue/10"
                     >
                       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                           d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                       <span>GMGN {tokenMetadata[stats.mint_y]?.symbol || 'Token 2'}</span>
-          </a>
-        </div>
-      </div>
+                    </a>
+                  </div>
+                </div>
               </section>
-    </div>
+            </div>
           </div>
         </div>
       )}
@@ -1220,17 +1220,17 @@ const PoolCard = ({ pool }: { pool: MeteoraPair }) => {
 
 const Documentation: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ isVisible, onClose }) => {
   if (!isVisible) return null;
-  
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Затемненный фон с размытием */}
-      <div 
+      <div
         className="absolute inset-0 bg-gradient-to-b from-primary-900/95 to-primary-950/95 backdrop-blur-xl transition-opacity duration-300"
         onClick={onClose}
       />
-      
+
       {/* Контент документации */}
-      <div 
+      <div
         className="relative w-full max-w-4xl bg-gradient-to-br from-primary-800/40 to-primary-900/40 
           rounded-2xl border border-accent-blue/20 shadow-2xl shadow-accent-blue/20 
           backdrop-blur-xl transform transition-all duration-300 animate-modal-enter
@@ -1240,18 +1240,18 @@ const Documentation: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ 
         {/* Декоративные элементы */}
         <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/5 via-accent-green/5 to-transparent opacity-50" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-accent-blue/10 via-transparent to-transparent" />
-        
+
         {/* Заголовок */}
         <div className="relative flex items-center justify-between p-6 border-b border-accent-blue/10">
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-accent-blue/10 rounded-lg animate-float">
               <svg className="w-6 h-6 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                   d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
             <div>
-              <h2 className="text-xl font-medium text-white">DLMMScan Documentation</h2>
+              <h2 className="text-xl font-medium text-white">DLMM Observer Documentation</h2>
               <p className="text-sm text-primary-200">Your guide to Meteora DLMM pools</p>
             </div>
           </div>
@@ -1275,7 +1275,7 @@ const Documentation: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ 
             <h3 className="text-lg font-medium text-white flex items-center space-x-2">
               <div className="p-2 bg-accent-blue/10 rounded-lg">
                 <svg className="w-5 h-5 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
@@ -1283,7 +1283,7 @@ const Documentation: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ 
             </h3>
             <div className="bg-primary-800/30 rounded-xl p-4 border border-accent-blue/20">
               <p className="text-primary-200 leading-relaxed">
-                DLMMScan is a real-time monitoring tool for Meteora DLMM (Dynamic Liquidity Market Maker) pools on Solana. 
+                DLMM Observer is a real-time monitoring tool for Meteora DLMM (Dynamic Liquidity Market Maker) pools on Solana.
                 It provides comprehensive analytics, volume tracking, and APR monitoring for liquidity providers and traders.
               </p>
             </div>
@@ -1294,7 +1294,7 @@ const Documentation: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ 
             <h3 className="text-lg font-medium text-white flex items-center space-x-2">
               <div className="p-2 bg-accent-green/10 rounded-lg">
                 <svg className="w-5 h-5 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                     d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </div>
@@ -1306,7 +1306,7 @@ const Documentation: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ 
                 <div className="flex items-center space-x-3 mb-2">
                   <div className="p-2 bg-accent-blue/10 rounded-lg">
                     <svg className="w-5 h-5 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                         d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
                   </div>
@@ -1322,7 +1322,7 @@ const Documentation: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ 
                 <div className="flex items-center space-x-3 mb-2">
                   <div className="p-2 bg-accent-green/10 rounded-lg">
                     <svg className="w-5 h-5 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                         d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                     </svg>
                   </div>
@@ -1338,7 +1338,7 @@ const Documentation: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ 
                 <div className="flex items-center space-x-3 mb-2">
                   <div className="p-2 bg-accent-blue/10 rounded-lg">
                     <svg className="w-5 h-5 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                         d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
@@ -1354,7 +1354,7 @@ const Documentation: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ 
                 <div className="flex items-center space-x-3 mb-2">
                   <div className="p-2 bg-accent-green/10 rounded-lg">
                     <svg className="w-5 h-5 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                         d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                     </svg>
                   </div>
@@ -1372,7 +1372,7 @@ const Documentation: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ 
             <h3 className="text-lg font-medium text-white flex items-center space-x-2">
               <div className="p-2 bg-accent-blue/10 rounded-lg">
                 <svg className="w-5 h-5 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                     d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
               </div>
@@ -1383,7 +1383,7 @@ const Documentation: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ 
                 <div className="flex items-center space-x-3 mb-2">
                   <div className="p-2 bg-accent-blue/10 rounded-lg">
                     <svg className="w-5 h-5 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                         d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
@@ -1398,7 +1398,7 @@ const Documentation: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ 
                 <div className="flex items-center space-x-3 mb-2">
                   <div className="p-2 bg-accent-green/10 rounded-lg">
                     <svg className="w-5 h-5 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                         d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
@@ -1413,7 +1413,7 @@ const Documentation: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ 
                 <div className="flex items-center space-x-3 mb-2">
                   <div className="p-2 bg-primary-700/50 rounded-lg">
                     <svg className="w-5 h-5 text-primary-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                         d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                     </svg>
                   </div>
@@ -1431,7 +1431,7 @@ const Documentation: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ 
             <h3 className="text-lg font-medium text-white flex items-center space-x-2">
               <div className="p-2 bg-accent-green/10 rounded-lg">
                 <svg className="w-5 h-5 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                     d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
@@ -1541,11 +1541,11 @@ const styles = `
   .card-grid {
     display: grid;
     grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 1.5rem;
+    gap: 1rem;
     position: relative;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 640px) {
     .card-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -1553,7 +1553,13 @@ const styles = `
 
   @media (min-width: 1024px) {
     .card-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .card-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 `;
@@ -1588,13 +1594,13 @@ export default function Home() {
       const solData = data.data['So11111111111111111111111111111111111111112'];
       if (solData) {
         const newPrice = parseFloat(solData.price).toFixed(2);
-        
+
         if (solPrice) {
           setPrevSolPrice(solPrice);
           const priceDiff = parseFloat(newPrice) - parseFloat(solPrice);
           setPriceChange(priceDiff > 0 ? 'up' : priceDiff < 0 ? 'down' : null);
         }
-        
+
         setSolPrice(newPrice);
       }
     } catch (error) {
@@ -1695,32 +1701,28 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary-900/80 via-primary-900/50 to-transparent pointer-events-none" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-accent-blue/10 via-transparent to-transparent pointer-events-none" />
         <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid.svg')] opacity-5 pointer-events-none" />
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-24">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between h-auto sm:h-24 py-4 sm:py-0 gap-4 sm:gap-0">
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-3 group">
                 <div className="relative">
                   <div className="absolute inset-0 bg-accent-blue/20 rounded-xl blur-xl group-hover:bg-accent-blue/30 transition-all duration-500" />
                   <div className="relative p-2 bg-gradient-to-br from-accent-blue/20 to-accent-green/20 rounded-xl border border-accent-blue/20">
-                    <svg className="w-8 h-8 text-accent-blue transform group-hover:scale-110 transition-transform duration-300" 
-                      viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                        d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" 
-                        className="opacity-50" />
-                    </svg>
-            </div>
+                    <img
+                      src="https://i.ibb.co/tTwD8zRm/logo-circle.png"
+                      alt="DLMM Observer"
+                      className="w-16 h-16 rounded-full shadow-lg transition-transform duration-300 ease-in-out hover:scale-125 hover:shadow-xl"
+                    />                  </div>
                 </div>
-            <div>
+                <div>
                   <h1 className="text-2xl font-medium text-white font-sans tracking-tight">
-                    DLMMScan
+                    DLMM Observer
                   </h1>
-                  <div className="flex items-center space-x-4 text-sm text-primary-200 mt-1">
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-primary-200 mt-1">
                     <div className="flex items-center space-x-2">
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                           d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                       </svg>
                       <span className="font-medium">{pools.length}</span>
@@ -1729,7 +1731,7 @@ export default function Home() {
                     {solPrice && (
                       <div className="flex items-center space-x-2 px-2 py-1 rounded-lg bg-primary-800/30 border border-primary-700/30">
                         <div className="relative w-4 h-4">
-                          <img 
+                          <img
                             src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png"
                             alt="SOL"
                             className="w-full h-full object-contain"
@@ -1738,25 +1740,23 @@ export default function Home() {
                             }}
                           />
                         </div>
-                        <AnimatedCounter 
-                          value={parseFloat(solPrice)} 
-                          prefix="$" 
+                        <AnimatedCounter
+                          value={parseFloat(solPrice)}
+                          prefix="$"
                           decimals={2}
                           className={`font-medium ${priceChange === 'up' ? 'text-accent-green' : priceChange === 'down' ? 'text-accent-red' : 'text-accent-blue'}`}
                         />
                       </div>
                     )}
                   </div>
-            </div>
-          </div>
-
-              {/* Удаляем div'ы с информацией о минимальной ликвидности и соотношении */}
+                </div>
+              </div>
             </div>
 
-            <div className="relative" ref={docsRef}>
-              <div className="flex items-center space-x-4">
+            <div className="relative w-full sm:w-auto" ref={docsRef}>
+              <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-4">
                 {/* Социальные сети */}
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <a
                     href="https://t.me/dlmm_scan"
                     target="_blank"
@@ -1768,7 +1768,7 @@ export default function Home() {
                       active:scale-95"
                   >
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.2-.04-.28-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.29-.49.8-.75 3.12-1.36 5.2-2.26 6.24-2.7 2.98-1.24 3.6-1.45 4.01-1.45.09 0 .29.02.42.12.11.08.14.19.16.27.02.07.02.2-.01.33z"/>
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.2-.04-.28-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.29-.49.8-.75 3.12-1.36 5.2-2.26 6.24-2.7 2.98-1.24 3.6-1.45 4.01-1.45.09 0 .29.02.42.12.11.08.14.19.16.27.02.07.02.2-.01.33z" />
                     </svg>
                   </a>
                   <a
@@ -1782,13 +1782,13 @@ export default function Home() {
                       active:scale-95"
                   >
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                      <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
                     </svg>
                   </a>
                 </div>
 
                 {/* Документация */}
-                <button 
+                <button
                   onClick={() => setShowDocs(!showDocs)}
                   className="group relative p-2 text-primary-200 hover:text-white rounded-lg 
                     bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50
@@ -1799,9 +1799,9 @@ export default function Home() {
                   <div className="absolute inset-0 bg-accent-blue/10 rounded-lg opacity-0 
                     group-hover:opacity-100 transition-opacity duration-300 blur-xl" />
                   <div className="relative flex items-center space-x-2">
-                    <svg className={`w-5 h-5 transition-transform duration-300 ${showDocs ? 'rotate-180' : ''}`} 
+                    <svg className={`w-5 h-5 transition-transform duration-300 ${showDocs ? 'rotate-180' : ''}`}
                       viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <span className="hidden md:inline text-sm font-medium">Documentation</span>
@@ -1810,130 +1810,95 @@ export default function Home() {
               </div>
             </div>
           </div>
-            </div>
-          </div>
+        </div>
+      </div>
 
       <main className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          {/* SOL/Memecoins Section */}
-          <section>
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-accent-blue/10 rounded-lg">
-                  <svg className="w-6 h-6 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                      d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
+          {/* Grid container for SOL/Memecoins and SOL/Stables sections */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* SOL/Memecoins Section */}
+            <section>
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-3">
+                  <div className="p-2 bg-accent-blue/10 rounded-lg">
+                    <svg className="w-6 h-6 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <h2 className="text-xl font-medium text-white">SOL/Memecoins Pools</h2>
+                  <span className="px-2 py-1 text-sm bg-primary-800/50 rounded-full text-primary-200">
+                    {categorizedPools['sol-memecoins'].length} pools
+                  </span>
                 </div>
-                <h2 className="text-xl font-medium text-white">SOL/Memecoins Pools</h2>
-                <span className="px-2 py-1 text-sm bg-primary-800/50 rounded-full text-primary-200">
-                  {categorizedPools['sol-memecoins'].length} pools
-                </span>
               </div>
-            </div>
-            <TransitionGroup component="div" className="card-grid">
-              {getCurrentPools('sol-memecoins').map((pool) => (
-                <CSSTransition
-                  key={pool.address}
-                  timeout={300}
-                  classNames="card"
-                >
-                  <div>
-                    <PoolCard pool={pool} />
-                  </div>
-                </CSSTransition>
-              ))}
-            </TransitionGroup>
-            {getTotalPages('sol-memecoins') > 1 && (
-              <div className="mt-6 flex justify-center space-x-2">
-                <Pagination 
-                  currentPage={currentPage['sol-memecoins']}
-                  totalPages={getTotalPages('sol-memecoins')}
-                  onPageChange={(page) => handlePageChange('sol-memecoins', page)}
-                />
-          </div>
-            )}
-          </section>
-
-          {/* SOL/Stables Section */}
-          <section>
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-accent-green/10 rounded-lg">
-                  <svg className="w-6 h-6 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-          </div>
-                <h2 className="text-xl font-medium text-white">SOL/Stables Pools</h2>
-                <span className="px-2 py-1 text-sm bg-primary-800/50 rounded-full text-primary-200">
-                  {categorizedPools['sol-stables'].length} pools
-                </span>
-        </div>
-            </div>
-            <TransitionGroup component="div" className="card-grid">
-              {getCurrentPools('sol-stables').map((pool) => (
-                <CSSTransition
-                  key={pool.address}
-                  timeout={300}
-                  classNames="card"
-                >
-                  <div>
-                    <PoolCard pool={pool} />
-                  </div>
-                </CSSTransition>
-              ))}
-            </TransitionGroup>
-            {getTotalPages('sol-stables') > 1 && (
-              <div className="mt-6 flex justify-center space-x-2">
-                <Pagination 
-                  currentPage={currentPage['sol-stables']}
-                  totalPages={getTotalPages('sol-stables')}
-                  onPageChange={(page) => handlePageChange('sol-stables', page)}
-                />
-              </div>
-            )}
-          </section>
-
-          {/* Other Pools Section */}
-          <section>
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-primary-800/50 rounded-lg">
-                  <svg className="w-6 h-6 text-primary-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                  </svg>
+              <TransitionGroup component="div" className="card-grid">
+                {getCurrentPools('sol-memecoins').map((pool) => (
+                  <CSSTransition
+                    key={pool.address}
+                    timeout={300}
+                    classNames="card"
+                  >
+                    <div>
+                      <PoolCard pool={pool} />
+                    </div>
+                  </CSSTransition>
+                ))}
+              </TransitionGroup>
+              {getTotalPages('sol-memecoins') > 1 && (
+                <div className="mt-6 flex justify-center space-x-2">
+                  <Pagination
+                    currentPage={currentPage['sol-memecoins']}
+                    totalPages={getTotalPages('sol-memecoins')}
+                    onPageChange={(page) => handlePageChange('sol-memecoins', page)}
+                  />
                 </div>
-                <h2 className="text-xl font-medium text-white">Other Pools</h2>
-                <span className="px-2 py-1 text-sm bg-primary-800/50 rounded-full text-primary-200">
-                  {categorizedPools['other'].length} pools
-                </span>
-              </div>
-            </div>
-            <TransitionGroup component="div" className="card-grid">
-              {getCurrentPools('other').map((pool) => (
-                <CSSTransition
-                  key={pool.address}
-                  timeout={300}
-                  classNames="card"
-                >
-                  <div>
-                    <PoolCard pool={pool} />
+              )}
+            </section>
+
+            {/* SOL/Stables Section */}
+            <section>
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-3">
+                  <div className="p-2 bg-accent-green/10 rounded-lg">
+                    <svg className="w-6 h-6 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                   </div>
-                </CSSTransition>
-              ))}
-            </TransitionGroup>
-            {getTotalPages('other') > 1 && (
-              <div className="mt-6 flex justify-center space-x-2">
-                <Pagination 
-                  currentPage={currentPage['other']}
-                  totalPages={getTotalPages('other')}
-                  onPageChange={(page) => handlePageChange('other', page)}
-                />
+                  <h2 className="text-xl font-medium text-white">SOL/Stables Pools</h2>
+                  <span className="px-2 py-1 text-sm bg-primary-800/50 rounded-full text-primary-200">
+                    {categorizedPools['sol-stables'].length} pools
+                  </span>
+                </div>
               </div>
-            )}
-          </section>
+              <TransitionGroup component="div" className="card-grid">
+                {getCurrentPools('sol-stables').map((pool) => (
+                  <CSSTransition
+                    key={pool.address}
+                    timeout={300}
+                    classNames="card"
+                  >
+                    <div>
+                      <PoolCard pool={pool} />
+                    </div>
+                  </CSSTransition>
+                ))}
+              </TransitionGroup>
+              {getTotalPages('sol-stables') > 1 && (
+                <div className="mt-6 flex justify-center space-x-2">
+                  <Pagination
+                    currentPage={currentPage['sol-stables']}
+                    totalPages={getTotalPages('sol-stables')}
+                    onPageChange={(page) => handlePageChange('sol-stables', page)}
+                  />
+                </div>
+              )}
+            </section>
+          </div>
+
+          {/* Remove Other Pools section */}
         </div>
       </main>
 
@@ -1945,14 +1910,14 @@ export default function Home() {
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-primary-800/30 border border-primary-700/30">
                 <svg className="w-4 h-4 text-accent-green" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                     d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
                 <span className="text-sm text-primary-200">Protected Pools</span>
               </div>
               <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-primary-800/30 border border-primary-700/30">
                 <svg className="w-4 h-4 text-accent-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                     d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
                 <span className="text-sm text-primary-200">Real-time Data</span>
@@ -1969,16 +1934,16 @@ export default function Home() {
       <Documentation isVisible={showDocs} onClose={() => setShowDocs(false)} />
     </div>
   );
-} 
+}
 
 // Компонент пагинации
-const Pagination = ({ 
-  currentPage, 
-  totalPages, 
-  onPageChange 
-}: { 
-  currentPage: number; 
-  totalPages: number; 
+const Pagination = ({
+  currentPage,
+  totalPages,
+  onPageChange
+}: {
+  currentPage: number;
+  totalPages: number;
   onPageChange: (page: number) => void;
 }) => {
   return (
@@ -1996,11 +1961,10 @@ const Pagination = ({
           <button
             key={page}
             onClick={() => onPageChange(page)}
-            className={`px-3 py-1 rounded-md ${
-              currentPage === page
+            className={`px-3 py-1 rounded-md ${currentPage === page
                 ? 'bg-accent-blue text-white'
                 : 'bg-primary-800 text-white hover:bg-primary-700'
-            } transition-colors`}
+              } transition-colors`}
           >
             {page}
           </button>
