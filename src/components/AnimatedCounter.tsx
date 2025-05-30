@@ -1,66 +1,73 @@
-import { useState, useEffect } from 'react';
+"use client";
+
+import { useState, useEffect, useRef } from 'react';
 
 interface AnimatedCounterProps {
   value: number;
+  duration?: number;
+  decimals?: number;
   prefix?: string;
   suffix?: string;
-  decimals?: number;
   className?: string;
 }
 
-const AnimatedCounter = ({ 
-  value, 
-  prefix = '', 
-  suffix = '', 
+const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
+  value,
+  duration = 1000,
   decimals = 2,
-  className = ''
+  prefix = '',
+  suffix = '',
+  className = '',
 }: AnimatedCounterProps) => {
   const [displayValue, setDisplayValue] = useState(value);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const previousValue = useRef(value);
+  const animationFrame = useRef<number>();
 
   useEffect(() => {
-    if (value !== displayValue) {
-      setIsAnimating(true);
-      const startValue = displayValue;
-      const endValue = value;
-      const duration = 500; // 500ms
-      const startTime = performance.now();
+    if (value === previousValue.current) return;
 
-      const animate = (currentTime: number) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+    const startTime = performance.now();
+    const startValue = previousValue.current;
+    const endValue = value;
+    const valueChange = endValue - startValue;
 
-        // Используем easeOutQuad для более естественной анимации
-        const easeProgress = 1 - (1 - progress) * (1 - progress);
-        const currentValue = startValue + (endValue - startValue) * easeProgress;
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
 
-        setDisplayValue(currentValue);
+      // Easing function (easeOutQuad)
+      const easedProgress = 1 - (1 - progress) * (1 - progress);
 
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          setDisplayValue(endValue);
-          setIsAnimating(false);
-        }
-      };
+      const currentValue = startValue + valueChange * easedProgress;
+      setDisplayValue(currentValue);
 
-      requestAnimationFrame(animate);
-    }
-  }, [value]);
+      if (progress < 1) {
+        animationFrame.current = requestAnimationFrame(animate);
+      } else {
+        setDisplayValue(endValue);
+        previousValue.current = endValue;
+      }
+    };
 
-  const formatValue = (val: number) => {
-    if (decimals === 0) {
-      return val.toLocaleString();
-    }
-    return val.toLocaleString(undefined, {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals
-    });
-  };
+    animationFrame.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrame.current) {
+        cancelAnimationFrame(animationFrame.current);
+      }
+    };
+  }, [value, duration]);
+
+  const formattedValue = displayValue.toLocaleString('en-US', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
 
   return (
-    <span className={`${className} ${isAnimating ? 'animate-value-change' : ''}`}>
-      {prefix}{formatValue(displayValue)}{suffix}
+    <span className={className}>
+      {prefix}
+      {formattedValue}
+      {suffix}
     </span>
   );
 };

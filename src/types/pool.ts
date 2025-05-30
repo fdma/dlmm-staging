@@ -47,6 +47,16 @@ export interface EnrichedPool extends Pool {
   isUpdated?: boolean;
 }
 
+export interface AprDataPoint {
+  timestamp: number;
+  apr: number;
+}
+
+export interface VolumeDataPoint {
+  timestamp: number;
+  volume: number;
+}
+
 export interface MeteoraPair {
   address: string;
   name: string;
@@ -75,29 +85,24 @@ export interface MeteoraPair {
   farm_apy: number;
   hide: boolean;
   is_blacklisted: boolean;
-  fees: {
-    min_30: number;
-    hour_1: number;
-    hour_2: number;
-    hour_4: number;
-    hour_12: number;
-    hour_24: number;
-  };
-  fee_tvl_ratio: {
-    min_30: number;
-    hour_1: number;
-    hour_2: number;
-    hour_4: number;
-    hour_12: number;
-    hour_24: number;
-  };
-  volume: {
-    min_30: number;
-    hour_1: number;
-    hour_2: number;
-    hour_4: number;
-    hour_12: number;
-    hour_24: number;
-  };
+  fees: VolumeData;
+  fee_tvl_ratio: VolumeData;
+  volume: VolumeData;
   tags: string[];
+  volume24h: number;
+  aprHistory: AprDataPoint[];
+  volumeHistory: VolumeDataPoint[];
+  price_x: number;
+  price_y: number;
+  price_x_usd: number;
+  price_y_usd: number;
+  token_x_decimals: number;
+  token_y_decimals: number;
+  token_x_symbol: string;
+  token_y_symbol: string;
+  token_x_name: string;
+  token_y_name: string;
+  token_x_logo: string;
+  token_y_logo: string;
+  isUpdated?: boolean;
 } 
